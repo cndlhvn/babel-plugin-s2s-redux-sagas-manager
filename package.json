@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "manage redux sagas",
   "license": "MIT",
+  "scripts": {
+    "build": "babel src --out-dir lib"
+  },
   "engines": {
     "node": ">=6"
   },

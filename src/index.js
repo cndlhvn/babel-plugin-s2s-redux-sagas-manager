@@ -80,6 +80,23 @@ module.exports = babel => {
                 fs.writeFile(outputFilePath, resultSrc, (err) => { if(err) {throw err} });
               }
             })
+            if(actionNameArray.length > variableDeclarators.length){
+              actionNameArray.forEach((val,index,ar) => {
+                if (variableDeclarators.indexOf(val) == -1){
+                  outputFile.path.traverse({
+                    FunctionDeclaration(path){
+                      const handleName = path.node.id.name
+                      const actionName = handleName.replace(/handle/, '').charAt(0).toLowerCase() + handleName.replace(/handle/, '').slice(1)
+                      if(actionName == val){
+                        path.remove()
+                      }
+                    }
+                  })
+                }
+              })
+              const resultSrc = generate(outputFile.ast).code
+              fs.writeFile(outputFilePath, resultSrc, (err) => { if (err) { throw err} })
+            }
 
             actionNameArray = []
             variableDeclarators = []

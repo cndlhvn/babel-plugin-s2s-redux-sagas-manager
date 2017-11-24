@@ -11,7 +11,9 @@ module.exports = babel => {
     name: "s2s-redux-sagas-manager",
     visitor: {
       VariableDeclarator(path,state){
-        variableDeclarators.push(path.node.id.name)
+        if (path.node.id.name.endsWith('Request')) {
+          variableDeclarators.push(path.node.id.name)
+        }
       },
       Program: {
         enter(path, state) {
